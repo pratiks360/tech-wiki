@@ -36,20 +36,28 @@
 
 ## 🗂️ Contents
 
+<!-- wiki:contents:start -->
 | Guide | Description |
 |---|---|
-| 🧩 **[Graphify + AI Agent Workflow](graphify.md)** | Standard operating procedure for wiring **Graphify**'s AST knowledge graph into a VS Code + Google Antigravity dual-dev setup — installation, Git hook automation, cross-editor config, prompt templates for impact analysis and architecture discovery, and pairing it with Claude Code / Codex terminal integrations |
-| 🔐 **[vpn/](vpn/)** | Notes and configs for VPN and network access setups |
+| 🤖 **AI Tooling** | |
+| &nbsp;&nbsp;&nbsp;↳ [Codebase Mapping with Graphify](ai-tooling/graphify.md) | Wiring Graphify's AST knowledge graph into a VS Code + Antigravity workflow — git hook automation, cross-editor config, prompt blueprints, and Claude Code / Codex integration. |
+| 🔐 **VPN** | |
+| &nbsp;&nbsp;&nbsp;↳ [WireGuard on Amazon Linux 2023: The Bulletproof Guide](vpn/VPN%20on%20AWS%20Linux.md) | Getting WireGuard to run flawlessly on AWS can be tricky due to hidden network traps. This guide incorporates every fix required for a stable connection (MTU sizing, UDP enforcement, DNS fallback, and the… |
+<!-- wiki:contents:end -->
 
 ---
 
 ## 🌳 Repo Structure
 
-```
+<!-- wiki:tree:start -->
+```text
 tech-wiki/
-├── graphify.md      # AI-agent codebase mapping workflow (Graphify + Claude Code/Antigravity/Codex)
-└── vpn/             # VPN / networking setup notes
+├── ai-tooling/
+│   └── graphify.md          # Codebase Mapping with Graphify
+└── vpn/
+    └── VPN on AWS Linux.md  # WireGuard on Amazon Linux 2023: The Bulletproof Guide
 ```
+<!-- wiki:tree:end -->
 
 ---
 
@@ -79,7 +87,7 @@ tech-wiki/
 A: These are living notes tied to Pratik's setup at the time of writing — check the tool's own docs for the current syntax and update the guide accordingly.
 
 **Q: Where do longer, tool-specific troubleshooting steps live?**
-A: Inside the guide itself — see the "Troubleshooting & Diagnostics" section of [`graphify.md`](graphify.md) for an example.
+A: Inside the guide itself — see the "Troubleshooting & Diagnostics" section of [`ai-tooling/graphify.md`](ai-tooling/graphify.md) for an example.
 
 ---
 

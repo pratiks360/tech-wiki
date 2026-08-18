@@ -1,3 +1,9 @@
+---
+title: Codebase Mapping with Graphify
+summary: Wiring Graphify's AST knowledge graph into a VS Code + Antigravity workflow — git hook automation, cross-editor config, prompt blueprints, and Claude Code / Codex integration.
+emoji: 🧩
+---
+
 # Developer Guide: Codebase Mapping with Graphify
 
 This guide outlines the standard operating procedure for integrating **Graphify** into a dual-development workflow combining **VS Code** and **Google Antigravity**. By maintaining a localized Abstract Syntax Tree (AST) knowledge graph, this setup optimizes AI agent performance, slashes LLM token consumption, and provides real-time architectural visualization.
