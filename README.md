@@ -43,6 +43,7 @@
 | &nbsp;&nbsp;&nbsp;↳ [Codebase Mapping with Graphify](ai-tooling/graphify.md) | Wiring Graphify's AST knowledge graph into a VS Code + Antigravity workflow — git hook automation, cross-editor config, prompt blueprints, and Claude Code / Codex integration. |
 | 🔐 **VPN** | |
 | &nbsp;&nbsp;&nbsp;↳ [WireGuard on Amazon Linux 2023: The Bulletproof Guide](vpn/VPN%20on%20AWS%20Linux.md) | Getting WireGuard to run flawlessly on AWS can be tricky due to hidden network traps. This guide incorporates every fix required for a stable connection (MTU sizing, UDP enforcement, DNS fallback, and the… |
+| &nbsp;&nbsp;&nbsp;↳ [Unattended Tailscale Exit Nodes on DietPi](vpn/unattended-tailscale-dietpi.md) | Why headless Pi exit nodes silently drop off the tailnet, and a bootstrap script with watchdog and maintenance timers that keeps a fleet online without manual reboots. |
 <!-- wiki:contents:end -->
 
 ---
@@ -53,9 +54,10 @@
 ```text
 tech-wiki/
 ├── ai-tooling/
-│   └── graphify.md          # Codebase Mapping with Graphify
+│   └── graphify.md                     # Codebase Mapping with Graphify
 └── vpn/
-    └── VPN on AWS Linux.md  # WireGuard on Amazon Linux 2023: The Bulletproof Guide
+    ├── VPN on AWS Linux.md             # WireGuard on Amazon Linux 2023: The Bulletproof Guide
+    └── unattended-tailscale-dietpi.md  # Unattended Tailscale Exit Nodes on DietPi
 ```
 <!-- wiki:tree:end -->
 
