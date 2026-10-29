@@ -41,9 +41,11 @@
 |---|---|
 | 🤖 **AI Tooling** | |
 | &nbsp;&nbsp;&nbsp;↳ [Codebase Mapping with Graphify](ai-tooling/graphify.md) | Wiring Graphify's AST knowledge graph into a VS Code + Antigravity workflow — git hook automation, cross-editor config, prompt blueprints, and Claude Code / Codex integration. |
+| 📁 **Dual Boot** | |
+| &nbsp;&nbsp;&nbsp;↳ [Arch Linux + Windows 11 Dual Boot with rEFInd](dual-boot/arch-windows-refind.md) | Install Arch beside Windows on one UEFI SSD, reuse the Windows EFI partition, and use rEFInd to pick the OS (Windows default) — plus the BitLocker, Fast Startup and EFI-access gotchas. |
 | 🔐 **VPN** | |
-| &nbsp;&nbsp;&nbsp;↳ [WireGuard on Amazon Linux 2023: The Bulletproof Guide](vpn/VPN%20on%20AWS%20Linux.md) | Getting WireGuard to run flawlessly on AWS can be tricky due to hidden network traps. This guide incorporates every fix required for a stable connection (MTU sizing, UDP enforcement, DNS fallback, and the… |
 | &nbsp;&nbsp;&nbsp;↳ [Unattended Tailscale Exit Nodes on DietPi](vpn/unattended-tailscale-dietpi.md) | Why headless Pi exit nodes silently drop off the tailnet, and a bootstrap script with watchdog and maintenance timers that keeps a fleet online without manual reboots. |
+| &nbsp;&nbsp;&nbsp;↳ [WireGuard on Amazon Linux 2023: The Bulletproof Guide](vpn/VPN%20on%20AWS%20Linux.md) | Getting WireGuard to run flawlessly on AWS can be tricky due to hidden network traps. This guide incorporates every fix required for a stable connection (MTU sizing, UDP enforcement, DNS fallback, and the… |
 <!-- wiki:contents:end -->
 
 ---
@@ -55,9 +57,11 @@
 tech-wiki/
 ├── ai-tooling/
 │   └── graphify.md                     # Codebase Mapping with Graphify
+├── dual-boot/
+│   └── arch-windows-refind.md          # Arch Linux + Windows 11 Dual Boot with rEFInd
 └── vpn/
-    ├── VPN on AWS Linux.md             # WireGuard on Amazon Linux 2023: The Bulletproof Guide
-    └── unattended-tailscale-dietpi.md  # Unattended Tailscale Exit Nodes on DietPi
+    ├── unattended-tailscale-dietpi.md  # Unattended Tailscale Exit Nodes on DietPi
+    └── VPN on AWS Linux.md             # WireGuard on Amazon Linux 2023: The Bulletproof Guide
 ```
 <!-- wiki:tree:end -->
 
