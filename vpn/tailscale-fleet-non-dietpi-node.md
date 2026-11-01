@@ -197,14 +197,34 @@ and run `sudo systemctl daemon-reexec`.
 
 ---
 
+## 🩹 Already Ran It Without the Overrides?
+
+The first run on `mumbai-oci-2` used the DietPi defaults. It installed a weekly
+reboot timer and a systemd hardware-watchdog config, neither of which a cloud VM
+wants (there is no `/dev/watchdog`). Remove them:
+
+```bash
+sudo systemctl disable --now pi-reboot.timer
+sudo rm -f /etc/systemd/system/pi-reboot.{timer,service} /etc/systemd/system.conf.d/99-watchdog.conf
+sudo systemctl daemon-reload && sudo systemctl daemon-reexec
+```
+
+Everything else the script installed (`ts-watchdog.timer`, `pi-maintenance.timer`,
+`ts-net-tune.service`) is fine to keep.
+
+---
+
 ## 📌 What Has and Has Not Been Verified
 
-- **Verified in practice:** the swap commands in §2, and the SSH drops and thrashing on
-  a 1 GB VM without swap during a large `apt` or build job (observed on an OCI
-  `e2-micro` while installing other software).
-- **Verified by reading the script, not by running it:** the override behaviour in the §1
-  table (`HW_WATCHDOG`, `REBOOT_SCHEDULE`, the `|| true` guards).
-- **Not yet verified:** a complete end-to-end run on the OCI node, the guest-firewall
-  `FORWARD` behaviour, and the Oracle idle-reclamation thresholds. The first end-to-end
-  run on `free-e2-micro-mum-2` was still in its `apt full-upgrade` step when this was
-  written. Treat §4 as a checklist of things to look at, and fix the page after the run.
+- **Verified by running it** on an OCI `e2-micro` (Ubuntu 24.04, 1 GB, with 2 GB swap):
+  the script completes and registers the node as a tagged exit node with Tailscale
+  SSH on; `ts-watchdog.timer`, `pi-maintenance.timer` and `ts-net-tune.service` are
+  active; IP forwarding is on; and the cleanup above removes the reboot timer and
+  watchdog config without affecting Tailscale.
+- **Verified:** swap fixes the SSH drops and thrashing seen during large `apt` or build
+  jobs on a 1 GB VM.
+- **Verified:** on this image `FORWARD` ends in a `REJECT`, with Tailscale's
+  `ts-forward` chain jumped to before it (§4).
+- **Not yet verified:** that traffic actually flows through the node from a client
+  (§5, step 4), the Oracle idle-reclamation thresholds, and the run with the §3
+  overrides from the start (the first run used the defaults).
