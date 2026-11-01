@@ -225,6 +225,7 @@ Everything else the script installed (`ts-watchdog.timer`, `pi-maintenance.timer
   jobs on a 1 GB VM.
 - **Verified:** on this image `FORWARD` ends in a `REJECT`, with Tailscale's
   `ts-forward` chain jumped to before it (§4).
-- **Not yet verified:** that traffic actually flows through the node from a client
-  (§5, step 4), the Oracle idle-reclamation thresholds, and the run with the §3
+- **Verified:** after approving the route, a client connected through the node as its
+  exit node and traffic flowed (§5, step 4). The `FORWARD` `REJECT` did not get in the way.
+- **Not yet verified:** the Oracle idle-reclamation thresholds, and the run with the §3
   overrides from the start (the first run used the defaults).
