@@ -44,6 +44,7 @@
 | 📁 **Dual Boot** | |
 | &nbsp;&nbsp;&nbsp;↳ [Arch Linux + Windows 11 Dual Boot with rEFInd](dual-boot/arch-windows-refind.md) | Install Arch beside Windows on one UEFI SSD, reuse the Windows EFI partition, and use rEFInd to pick the OS (Windows default) — plus the BitLocker, Fast Startup and EFI-access gotchas. |
 | 🔐 **VPN** | |
+| &nbsp;&nbsp;&nbsp;↳ [Adding a Non-DietPi Node to the Tailscale Fleet](vpn/tailscale-fleet-non-dietpi-node.md) | Reuse the DietPi bootstrap script on an Ubuntu/Debian cloud VM (OCI free e2-micro) with the Pi-only parts switched off, plus swap, firewall and reclamation gotchas. |
 | &nbsp;&nbsp;&nbsp;↳ [Unattended Tailscale Exit Nodes on DietPi](vpn/unattended-tailscale-dietpi.md) | Why headless Pi exit nodes silently drop off the tailnet, and a bootstrap script with watchdog and maintenance timers that keeps a fleet online without manual reboots. |
 | &nbsp;&nbsp;&nbsp;↳ [WireGuard on Amazon Linux 2023: The Bulletproof Guide](vpn/VPN%20on%20AWS%20Linux.md) | Getting WireGuard to run flawlessly on AWS can be tricky due to hidden network traps. This guide incorporates every fix required for a stable connection (MTU sizing, UDP enforcement, DNS fallback, and the… |
 <!-- wiki:contents:end -->
@@ -56,12 +57,13 @@
 ```text
 tech-wiki/
 ├── ai-tooling/
-│   └── graphify.md                     # Codebase Mapping with Graphify
+│   └── graphify.md                         # Codebase Mapping with Graphify
 ├── dual-boot/
-│   └── arch-windows-refind.md          # Arch Linux + Windows 11 Dual Boot with rEFInd
+│   └── arch-windows-refind.md              # Arch Linux + Windows 11 Dual Boot with rEFInd
 └── vpn/
-    ├── unattended-tailscale-dietpi.md  # Unattended Tailscale Exit Nodes on DietPi
-    └── VPN on AWS Linux.md             # WireGuard on Amazon Linux 2023: The Bulletproof Guide
+    ├── tailscale-fleet-non-dietpi-node.md  # Adding a Non-DietPi Node to the Tailscale Fleet
+    ├── unattended-tailscale-dietpi.md      # Unattended Tailscale Exit Nodes on DietPi
+    └── VPN on AWS Linux.md                 # WireGuard on Amazon Linux 2023: The Bulletproof Guide
 ```
 <!-- wiki:tree:end -->
 
