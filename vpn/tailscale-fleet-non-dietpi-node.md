@@ -197,6 +197,37 @@ and run `sudo systemctl daemon-reexec`.
 
 ---
 
+## 🅰️ Amazon Linux 2023 (dnf) Nodes
+
+An AWS EC2 box on Amazon Linux 2023 has no `apt`, so the script above stops at its first
+step. [`tailscale-bootstrap-al2023.sh`](tailscale-bootstrap-al2023.sh) is the same script
+with two changes: `dnf` replaces `apt`, and it **skips `tailscale up`**, so a node that is
+already enrolled (and possibly untagged) keeps its tailnet identity. Use it only on a node
+that is already logged in.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/pratiks360/tech-wiki/main/vpn/tailscale-bootstrap-al2023.sh -o /tmp/ts-al2023.sh
+sudo TS_HOSTNAME='nvirginia-ec2-limited' TS_ACCEPT_DNS=true      HW_WATCHDOG=0 REBOOT_SCHEDULE='' DIETPI_UPDATE=0      nohup bash /tmp/ts-al2023.sh > /tmp/ts-fleet.log 2>&1 < /dev/null &
+```
+
+Set `TS_HOSTNAME` and `TS_ACCEPT_DNS` to what the node already uses. The watchdog replays
+them if Tailscale ever reports `Stopped`.
+
+> **Run it with `nohup`.** The `dnf upgrade` can restart `tailscaled`, which drops a
+> Tailscale SSH session mid-run (seen once: `Connection closed by remote host`).
+
+> **The 8 GB default root volume fills up.** After the first `dnf -y upgrade`,
+> `/var/cache/dnf` held 2.7 GB and `dnf clean all` did not free it (root went 66% to 95%).
+> The variant script now ends its maintenance job with `rm -rf /var/cache/dnf/*`. Attach a
+> second EBS volume for anything big (a 150 GB one holds a Hermes install at `~/.hermes`).
+
+> **`REBOOT_SCHEDULE=''` used to be ignored.** The original script used `${VAR:-default}`,
+> which treats an empty value as unset, so the weekly reboot timer got installed anyway.
+> It now uses `${VAR-default}`. If you ran an older copy, remove the timer:
+> `sudo systemctl disable --now pi-reboot.timer`.
+
+---
+
 ## 🩹 Already Ran It Without the Overrides?
 
 The first run on `mumbai-oci-2` used the DietPi defaults. It installed a weekly
@@ -227,5 +258,9 @@ Everything else the script installed (`ts-watchdog.timer`, `pi-maintenance.timer
   `ts-forward` chain jumped to before it (§4).
 - **Verified:** after approving the route, a client connected through the node as its
   exit node and traffic flowed (§5, step 4). The `FORWARD` `REJECT` did not get in the way.
-- **Not yet verified:** the Oracle idle-reclamation thresholds, and the run with the §3
-  overrides from the start (the first run used the defaults).
+- **Verified on Amazon Linux 2023** (EC2, x86_64): the dnf variant completes, installs the
+  watchdog and maintenance timers, and leaves the existing Tailscale identity alone.
+- **Found and fixed:** `REBOOT_SCHEDULE=''` did not disable the reboot timer in the first copy
+  of the script (see the Amazon Linux section).
+- **Not yet verified:** the Oracle idle-reclamation thresholds, and a clean run of the fixed
+  script on Ubuntu with the §3 overrides (the first run used the defaults).

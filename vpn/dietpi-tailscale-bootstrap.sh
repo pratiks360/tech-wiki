@@ -31,7 +31,7 @@ NET_DOWN_REBOOT_MIN="${NET_DOWN_REBOOT_MIN:-20}" # reboot if there is no interne
 TS_FAIL_REBOOT="${TS_FAIL_REBOOT:-6}"            # reboot after N consecutive failed Tailscale health checks
 
 MAINT_SCHEDULE="${MAINT_SCHEDULE:-Sun *-*-* 04:30:00}"   # apt update/upgrade + cleanup
-REBOOT_SCHEDULE="${REBOOT_SCHEDULE:-Sun *-*-* 05:15:00}" # weekly reboot ("" disables)
+REBOOT_SCHEDULE="${REBOOT_SCHEDULE-Sun *-*-* 05:15:00}" # weekly reboot (set to empty to disable)
 DIETPI_UPDATE="${DIETPI_UPDATE:-0}"              # 1 = also run dietpi-update during maintenance (see notes)
 HW_WATCHDOG="${HW_WATCHDOG:-1}"                  # 1 = enable the BCM hardware watchdog via systemd
 
