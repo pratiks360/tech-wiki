@@ -1,0 +1,47 @@
+{
+    "aws-partner-central":  {
+                                "type":  "remote",
+                                "url":  "https://partnercentral-agents-mcp.us-east-1.api.aws/mcp",
+                                "headers":  {
+                                                "Count":  "\u003cREDACTED\u003e",
+                                                "IsReadOnly":  "\u003cREDACTED\u003e",
+                                                "Keys":  "\u003cREDACTED\u003e",
+                                                "Values":  "\u003cREDACTED\u003e",
+                                                "IsFixedSize":  "\u003cREDACTED\u003e",
+                                                "SyncRoot":  "\u003cREDACTED\u003e",
+                                                "IsSynchronized":  "\u003cREDACTED\u003e"
+                                            }
+                            },
+    "colab-mcp":  {
+                      "type":  "local",
+                      "command":  [
+                                      "uvx",
+                                      "git+https://github.com/googlecolab/colab-mcp"
+                                  ],
+                      "env":  {
+                                  "Count":  "\u003cREDACTED\u003e",
+                                  "IsReadOnly":  "\u003cREDACTED\u003e",
+                                  "Keys":  "\u003cREDACTED\u003e",
+                                  "Values":  "\u003cREDACTED\u003e",
+                                  "IsFixedSize":  "\u003cREDACTED\u003e",
+                                  "SyncRoot":  "\u003cREDACTED\u003e",
+                                  "IsSynchronized":  "\u003cREDACTED\u003e"
+                              }
+                  },
+    "playwright":  {
+                       "type":  "local",
+                       "command":  [
+                                       "npx",
+                                       "@playwright/mcp@latest"
+                                   ],
+                       "env":  {
+                                   "Count":  "\u003cREDACTED\u003e",
+                                   "IsReadOnly":  "\u003cREDACTED\u003e",
+                                   "Keys":  "\u003cREDACTED\u003e",
+                                   "Values":  "\u003cREDACTED\u003e",
+                                   "IsFixedSize":  "\u003cREDACTED\u003e",
+                                   "SyncRoot":  "\u003cREDACTED\u003e",
+                                   "IsSynchronized":  "\u003cREDACTED\u003e"
+                               }
+                   }
+}

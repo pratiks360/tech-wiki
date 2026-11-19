@@ -1,0 +1,10 @@
+{
+    "plugins":  [
+                    "frontend-design@claude-plugins-official",
+                    "playwright@claude-plugins-official",
+                    "superpowers@claude-plugins-official"
+                ],
+    "marketplaces":  {
+                         "claude-plugins-official":  "anthropics/claude-plugins-official"
+                     }
+}
