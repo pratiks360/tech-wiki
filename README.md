@@ -40,6 +40,7 @@
 | Guide | Description |
 |---|---|
 | 🤖 **AI Tooling** | |
+| &nbsp;&nbsp;&nbsp;↳ [Sync Claude Code and OpenCode (Skills, MCP, RTK)](ai-tooling/claude-opencode-sync.md) | One PowerShell script that mirrors skills and MCP servers between Claude Code and OpenCode on Windows, in either direction, plus RTK setup and a prompt to rebuild it on another machine. |
 | &nbsp;&nbsp;&nbsp;↳ [Codebase Mapping with Graphify](ai-tooling/graphify.md) | Wiring Graphify's AST knowledge graph into a VS Code + Antigravity workflow — git hook automation, cross-editor config, prompt blueprints, and Claude Code / Codex integration. |
 | 📁 **Dual Boot** | |
 | &nbsp;&nbsp;&nbsp;↳ [Arch Linux + Windows 11 Dual Boot with rEFInd](dual-boot/arch-windows-refind.md) | Install Arch beside Windows on one UEFI SSD, reuse the Windows EFI partition, and use rEFInd to pick the OS (Windows default) — plus the BitLocker, Fast Startup and EFI-access gotchas. |
@@ -57,6 +58,7 @@
 ```text
 tech-wiki/
 ├── ai-tooling/
+│   ├── claude-opencode-sync.md             # Sync Claude Code and OpenCode (Skills, MCP, RTK)
 │   └── graphify.md                         # Codebase Mapping with Graphify
 ├── dual-boot/
 │   └── arch-windows-refind.md              # Arch Linux + Windows 11 Dual Boot with rEFInd
