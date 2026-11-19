@@ -1,4 +1,31 @@
 {
+    "api-anything":  {
+                         "type":  "local",
+                         "command":  [
+                                         "npx",
+                                         "-y",
+                                         "api-anything",
+                                         "mcp"
+                                     ],
+                         "env":  {
+
+                                 }
+                     },
+    "api-anything-bam":  {
+                             "type":  "local",
+                             "command":  [
+                                             "npx.cmd",
+                                             "-y",
+                                             "api-anything",
+                                             "mcp",
+                                             "--sites",
+                                             "bestaimodels",
+                                             "--allow-writes"
+                                         ],
+                             "env":  {
+
+                                     }
+                         },
     "aws-partner-central":  {
                                 "type":  "remote",
                                 "url":  "https://partnercentral-agents-mcp.us-east-1.api.aws/mcp",
@@ -25,5 +52,20 @@
                        "env":  {
 
                                }
-                   }
+                   },
+    "rea":  {
+                "type":  "local",
+                "command":  [
+                                "cmd.exe",
+                                "/d",
+                                "/c",
+                                "npx",
+                                "-y",
+                                "rea-agents@6.7.0",
+                                "mcp"
+                            ],
+                "env":  {
+
+                        }
+            }
 }

@@ -2,9 +2,11 @@
     "plugins":  [
                     "frontend-design@claude-plugins-official",
                     "playwright@claude-plugins-official",
+                    "ponytail@ponytail",
                     "superpowers@claude-plugins-official"
                 ],
     "marketplaces":  {
-                         "claude-plugins-official":  "anthropics/claude-plugins-official"
+                         "claude-plugins-official":  "anthropics/claude-plugins-official",
+                         "ponytail":  "DietrichGebert/ponytail"
                      }
 }
