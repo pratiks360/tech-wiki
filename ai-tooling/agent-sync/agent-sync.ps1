@@ -116,7 +116,7 @@ function Ensure-Repo {
   Say "Repo: $script:Repo" DarkGray
   if(-not (Test-Path (Join-Path $script:Repo '.git'))){
     Act "clone $RepoUrl"
-    if($Write -or $Action -eq 'Pull' -and -not $DryRun){ New-Item -ItemType Directory -Force (Split-Path $script:Repo) | Out-Null; git clone -q $RepoUrl $script:Repo; if($LASTEXITCODE){ throw 'clone failed' } }
+    if(-not $DryRun){ New-Item -ItemType Directory -Force (Split-Path $script:Repo) | Out-Null; git clone -q $RepoUrl $script:Repo; if($LASTEXITCODE){ throw 'clone failed' } }
     elseif(-not (Test-Path $script:Repo)){ throw "Repo not cloned yet; run without -DryRun/Status once, or: git clone $RepoUrl `"$script:Repo`"" }
   } else {
     if(-not $DryRun){ RGit pull -q --rebase --autostash }
