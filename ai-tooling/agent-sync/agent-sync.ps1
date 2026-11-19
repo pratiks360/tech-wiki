@@ -53,7 +53,7 @@ $DoPull = $Action -in 'Sync','Pull','Status'
 $DoPush = $Action -in 'Sync','Push','Status'
 
 # ---------------- helpers ----------------
-function Write-Utf8([string]$path,[string]$text){ [IO.File]::WriteAllText($path,$text,(New-Object Text.UTF8Encoding($false))) }
+function Write-Utf8([string]$path,[string]$text){ $text=$text.Replace('\u003c','<').Replace('\u003e','>').Replace('\u0026','&').Replace('\u0027',"'"); [IO.File]::WriteAllText($path,$text,(New-Object Text.UTF8Encoding($false))) }
 function Read-Jsonc([string]$path){
   if (-not (Test-Path $path)) { return $null }
   $t = Get-Content $path -Raw
@@ -70,7 +70,7 @@ function Read-Jsonc([string]$path){
   $s = [regex]::Replace($sb.ToString(), ',(\s*[}\]])', '$1')
   return $s | ConvertFrom-Json
 }
-function To-Hash($o){ $h=[ordered]@{}; if($o){ foreach($p in $o.PSObject.Properties){ $h[$p.Name]=$p.Value } }; return $h }
+function To-Hash($o){ $h=[ordered]@{}; if($o -is [System.Collections.IDictionary]){ foreach($k in $o.Keys){ $h[$k]=$o[$k] } } elseif($o){ foreach($p in $o.PSObject.Properties){ $h[$p.Name]=$p.Value } }; return $h }
 function Read-JsonFile($path,$default){ if(Test-Path $path){ $r = Get-Content $path -Raw | ConvertFrom-Json; if($r){return $r} }; return $default }
 
 $JunkRx = '\\(__pycache__|node_modules|\.git|\.DS_Store)(\\|$)|\.pyc$'
@@ -182,9 +182,13 @@ function Redact($d){   # copy with secret values replaced; returns $null if args
   if($o.Contains('url') -and ($o.url -match $SecretRx -or $o.url -match '[?&](key|token|api_key|apikey)=')){ return $null }
   return $o
 }
-function Mcp-Sig($d){   # comparable signature ignoring secret values
-  $o=Redact $d; if(-not $o){ return 'SECRET' }
-  return ($o | ConvertTo-Json -Depth 10 -Compress)
+function Mcp-Sig($d){   # canonical signature ignoring secret values and JSON round-trip quirks
+  $h = To-Hash $d
+  $cmd = (@($h['command']) | ? { $_ }) -join ' '
+  if($cmd -match $SecretRx -or "$($h['url'])" -match $SecretRx){ return 'SECRET' }
+  $env = (@((To-Hash $h['env']).Keys) | Sort-Object) -join ','
+  $hdr = (@((To-Hash $h['headers']).Keys) | Sort-Object) -join ','
+  return "$($h['type'])|$cmd|$($h['url'])|env:$env|hdr:$hdr"
 }
 function Resolve-Secrets($d,$name){   # master def -> installable def, or $null if secrets missing
   $o=[ordered]@{}; foreach($k in $d.PSObject.Properties){ $o[$k.Name]=$k.Value }
@@ -201,8 +205,8 @@ function Add-ClaudeMcp($name,$o){
   if($o.type -eq 'remote'){ $j=[ordered]@{ type='http'; url=$o.url }; if($o.headers.Count){ $j.headers=$o.headers } }
   else { $c=@($o.command); $j=[ordered]@{ type='stdio'; command=$c[0]; args=@($c | Select -Skip 1) }; if($o.env.Count){ $j.env=$o.env } }
   $json = $j | ConvertTo-Json -Depth 10 -Compress
-  claude mcp remove $name -s user 2>$null | Out-Null
-  claude mcp add-json -s user $name ($json.Replace('"','\"')) | Out-Null
+  $eap=$ErrorActionPreference; $ErrorActionPreference='Continue'
+  try { claude mcp remove $name -s user 2>$null | Out-Null; claude mcp add-json -s user $name ($json.Replace('"','\"')) | Out-Null } finally { $ErrorActionPreference=$eap }
 }
 function Add-OcMcp($name,$o,[ref]$cfgRef){
   $cfg=$cfgRef.Value; $mcp=To-Hash $cfg.mcp
@@ -317,9 +321,9 @@ function Sync-Plugins {
       if($Write){
         if(-not (Get-Command claude -ErrorAction SilentlyContinue)){ Warn "claude CLI not found; skipped plugin $p"; continue }
         $mkName=($p -split '@')[1]
-        if($mkName -and $mMk.Contains($mkName) -and -not $lMk.ContainsKey($mkName) -and $mkName -ne 'claude-plugins-official'){ claude plugin marketplace add $mMk[$mkName] | Out-Null }
-        claude plugin install $p | Out-Null
-        if($LASTEXITCODE){ Warn "plugin install failed: $p" }
+        if($mkName -and $mMk.Contains($mkName) -and -not $lMk.ContainsKey($mkName) -and $mkName -ne 'claude-plugins-official'){ $eap=$ErrorActionPreference; $ErrorActionPreference='Continue'; try { claude plugin marketplace add $mMk[$mkName] 2>&1 | Out-Null } finally { $ErrorActionPreference=$eap } }
+        $eap=$ErrorActionPreference; $ErrorActionPreference='Continue'; try { claude plugin install $p 2>&1 | Out-Null } finally { $ErrorActionPreference=$eap }
+        if($LASTEXITCODE){ if($mkName -and $mMk.Contains($mkName)){ $eap=$ErrorActionPreference; $ErrorActionPreference='Continue'; try { claude plugin marketplace add $mMk[$mkName] 2>&1 | Out-Null; claude plugin install $p 2>&1 | Out-Null } finally { $ErrorActionPreference=$eap } }; if($LASTEXITCODE){ Warn "plugin install failed: $p (try manually: claude plugin install $p)" } }
       } }
   }
   if($Write -and $dirty){ $o=[ordered]@{ plugins=@($mPlug | Sort-Object -Unique); marketplaces=$mMk }
@@ -339,7 +343,7 @@ function Sync-LocalBridge {
   Say "  copied: $n"
   if(Get-Command rtk -ErrorAction SilentlyContinue){
     if(Test-Path (Join-Path $OcDir 'plugins\rtk.ts')){ Say "  rtk: OpenCode plugin installed ($(rtk --version))" }
-    else { Act "rtk init -g --opencode --auto-patch"; if($Write){ rtk init -g --opencode --auto-patch | Out-Null } }
+    else { Act "rtk init -g --opencode --auto-patch"; if($Write){ $eap=$ErrorActionPreference; $ErrorActionPreference='Continue'; try { rtk init -g --opencode --auto-patch 2>&1 | Out-Null } finally { $ErrorActionPreference=$eap } } }
   } else { Warn "rtk not on PATH (https://github.com/rtk-ai/rtk/releases) - RTK not enabled in OpenCode" }
 }
 
